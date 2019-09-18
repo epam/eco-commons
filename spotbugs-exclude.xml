@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+        xmlns="https://github.com/spotbugs/filter/3.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+
+    <Match>
+        <Class name="com.epam.eco.commons.concurrent.ResourceSemaphores$ResourceSemaphore" />
+        <Method name="awaitUnchecked" />
+        <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS" />
+    </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.parse.ParserUtils" />
+        <Method name="parseBoolean" />
+        <Or>
+            <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+            <Bug pattern="TBP_TRISTATE_BOOLEAN_PATTERN" />
+        </Or>
+    </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.json.JsonMapper" />
+        <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS" />
+    </Match>
+
+</FindBugsFilter>
