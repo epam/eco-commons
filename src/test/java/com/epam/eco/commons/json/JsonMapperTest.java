@@ -110,9 +110,13 @@ public class JsonMapperTest {
     }
 
     private void assertTestEntityMapRepresentationIsValid(Map<String, Object> map) {
-        Assert.assertEquals(5, map.size());
+        Assert.assertEquals(9, map.size());
         Assert.assertTrue(map.containsKey("id"));
         Assert.assertTrue(map.containsKey("name"));
+        Assert.assertTrue(map.containsKey("age"));
+        Assert.assertTrue(map.containsKey("rating"));
+        Assert.assertTrue(map.containsKey("initRandom"));
+        Assert.assertTrue(map.containsKey("magic"));
         Assert.assertTrue(map.containsKey("createdAt"));
         Assert.assertTrue(map.containsKey("lastModifiedAt"));
         Assert.assertTrue(map.containsKey("deleted"));

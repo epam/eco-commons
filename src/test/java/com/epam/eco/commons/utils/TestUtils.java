@@ -27,8 +27,8 @@ public abstract class TestUtils {
     private static final LocalDateTime DEFAULT_TIME = Instant.ofEpochMilli(0)
             .atZone(ZoneId.of("UTC"))
             .toLocalDateTime();
-    private static final String TEST_ENTITY_JSON = "{\"id\":1,\"name\":\"name\",\"createdAt\":[1970,1,1,0,0]," +
-            "\"lastModifiedAt\":[1970,1,1,0,0,42],\"deleted\":false}";
+    private static final String TEST_ENTITY_JSON =
+            "{\"id\":1,\"name\":\"name\",\"age\":23,\"rating\":100,\"initRandom\":3.126123,\"magic\":6342.23424,\"createdAt\":[1970,1,1,0,0],\"lastModifiedAt\":[1970,1,1,0,0,42],\"deleted\":false}";
 
     private TestUtils() {
     }
@@ -37,6 +37,10 @@ public abstract class TestUtils {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(1);
         testEntity.setName("name");
+        testEntity.setAge((short) 23);
+        testEntity.setRating(100);
+        testEntity.setInitRandom(3.126123F);
+        testEntity.setMagic(6342.23424);
         testEntity.setCreatedAt(DEFAULT_TIME);
         testEntity.setLastModifiedAt(DEFAULT_TIME.plusSeconds(42));
         testEntity.setDeleted(false);

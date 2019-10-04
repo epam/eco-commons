@@ -18,13 +18,21 @@ package com.epam.eco.commons.utils;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.apache.commons.lang3.Validate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Raman_Babich
  */
 public class TestEntity {
 
-    private int id;
+    private long id;
     private String name;
+    private short age;
+    private int rating;
+    private float initRandom;
+    private double magic;
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
     private boolean deleted;
@@ -32,11 +40,34 @@ public class TestEntity {
     public TestEntity() {
     }
 
-    public int getId() {
+    public TestEntity(
+            @JsonProperty("id") long id,
+            @JsonProperty("name") String name,
+            @JsonProperty("age") short age,
+            @JsonProperty("rating") int rating,
+            @JsonProperty("initRandom") float initRandom,
+            @JsonProperty("magic") double magic,
+            @JsonProperty("createdAt") LocalDateTime createdAt,
+            @JsonProperty("lastModifiedAt") LocalDateTime lastModifiedAt,
+            @JsonProperty("deleted") boolean deleted) {
+        Validate.notNull(name);
+
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.rating = rating;
+        this.initRandom = initRandom;
+        this.magic = magic;
+        this.createdAt = createdAt;
+        this.lastModifiedAt = lastModifiedAt;
+        this.deleted = deleted;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -46,6 +77,38 @@ public class TestEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public short getAge() {
+        return age;
+    }
+
+    public void setAge(short age) {
+        this.age = age;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public float getInitRandom() {
+        return initRandom;
+    }
+
+    public void setInitRandom(float initRandom) {
+        this.initRandom = initRandom;
+    }
+
+    public double getMagic() {
+        return magic;
+    }
+
+    public void setMagic(double magic) {
+        this.magic = magic;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -72,13 +135,16 @@ public class TestEntity {
         this.deleted = deleted;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestEntity that = (TestEntity) o;
         return id == that.id &&
+                age == that.age &&
+                rating == that.rating &&
+                Float.compare(that.initRandom, initRandom) == 0 &&
+                Double.compare(that.magic, magic) == 0 &&
                 deleted == that.deleted &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(createdAt, that.createdAt) &&
@@ -87,7 +153,7 @@ public class TestEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, createdAt, lastModifiedAt, deleted);
+        return Objects.hash(id, name, age, rating, initRandom, magic, createdAt, lastModifiedAt, deleted);
     }
 
     @Override
@@ -95,6 +161,10 @@ public class TestEntity {
         return "TestEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", age=" + age +
+                ", rating=" + rating +
+                ", initRandom=" + initRandom +
+                ", magic=" + magic +
                 ", createdAt=" + createdAt +
                 ", lastModifiedAt=" + lastModifiedAt +
                 ", deleted=" + deleted +
