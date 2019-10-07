@@ -19,6 +19,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.apache.commons.lang3.Validate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 /**
  * @author Raman_Babich
  */
@@ -46,6 +51,25 @@ public abstract class TestUtils {
         testEntity.setDeleted(false);
 
         return testEntity;
+    }
+
+    public static ObjectNode getTestEntityObjectNode(ObjectMapper objectMapper) {
+        Validate.notNull(objectMapper);
+
+        TestEntity testEntity = getTestEntity();
+
+        return objectMapper.convertValue(testEntity, ObjectNode.class);
+
+//        ObjectNode node = objectMapper.createObjectNode();
+//        node.put(TestEntityFields.ID, testEntity.getId());
+//        node.put(TestEntityFields.NAME, testEntity.getName());
+//        node.put(TestEntityFields.AGE, testEntity.getAge());
+//        node.put(TestEntityFields.RATING, testEntity.getRating());
+//        node.put(TestEntityFields.INIT_RANDOM, testEntity.getInitRandom());
+//        node.put(TestEntityFields.MAGIC, testEntity.getMagic());
+//        node.put(TestEntityFields.CREATED_AT, objectMapper.convertValue(testEntity.getCreatedAt(), ObjectNode.class));
+//        node.put(TestEntityFields.LAST_MODIFIED_AT, testEntity.getLastModifiedAt());
+//        node.put(TestEntityFields.DELETED, testEntity.isDeleted());
     }
 
     public static String getTestEntityJson() {
