@@ -3,7 +3,7 @@
 
     <groupId>com.epam.eco</groupId>
     <artifactId>commons</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2</version>
 
     <name>Eco Commons</name>
     <url>https://github.com/epam/eco-commons</url>
@@ -43,7 +43,7 @@
         <connection>scm:git:git@github.com:epam/eco-commons.git</connection>
         <developerConnection>scm:git:git@github.com:epam/eco-commons.git</developerConnection>
         <url>https://github.com/epam/eco-commons</url>
-        <tag>HEAD</tag>
+        <tag>v0.1.2</tag>
     </scm>
 
     <distributionManagement>
