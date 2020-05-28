@@ -21,5 +21,10 @@
         <Class name="com.epam.eco.commons.json.JsonMapper" />
         <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS" />
     </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.web.UrlUtils" />
+        <Method name="&lt;clinit&gt;" />
+        <Bug pattern="REDOS" />
+    </Match>
 
 </FindBugsFilter>
