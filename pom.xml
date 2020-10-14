@@ -79,7 +79,7 @@
         <findsecbugs-plugin.version>1.8.0</findsecbugs-plugin.version>
         <fb-contrib.version>7.4.3.sb</fb-contrib.version>
 
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>
