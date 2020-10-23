@@ -48,7 +48,7 @@ public class QueryTimeoutConnectionProxyTest {
     }
 
     @Test
-    public void testCreateIsCreatedWithZeroTimeout() throws SQLException {
+    public void testTimeoutIsSet() throws SQLException {
         MutableObject<Integer> timeout = new MutableObject<>();
         when(testConnection.createStatement()).thenReturn(testStatement);
         doAnswer(invocationOnMock -> {
@@ -60,19 +60,4 @@ public class QueryTimeoutConnectionProxyTest {
         Connection wrappedConnection = QueryTimeoutConnectionProxy.create(testConnection, 0);
         Assert.assertEquals(0, wrappedConnection.createStatement().getQueryTimeout());
     }
-
-    @Test
-    public void testWrapTimeoutAboveZero() throws SQLException {
-        MutableObject<Integer> timeout = new MutableObject<>();
-        when(testConnection.createStatement()).thenReturn(testStatement);
-        doAnswer(invocationOnMock -> {
-            timeout.setValue((Integer) invocationOnMock.getArguments()[0]);
-            return null;
-        }).when(testStatement).setQueryTimeout(anyInt());
-        when(testStatement.getQueryTimeout()).thenAnswer(invocationOnMock -> timeout.getValue());
-
-        Connection wrappedConnection = QueryTimeoutConnectionProxy.create(testConnection, 1);
-        Assert.assertEquals(1, wrappedConnection.createStatement().getQueryTimeout());
-    }
-
 }
