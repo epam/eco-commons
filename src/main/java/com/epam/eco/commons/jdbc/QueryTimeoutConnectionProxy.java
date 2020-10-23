@@ -30,6 +30,7 @@ public abstract class QueryTimeoutConnectionProxy {
 
     public static Connection create(Connection instance, int queryTimeoutSec) {
         Validate.isTrue(queryTimeoutSec >= 0, "Query timeout is invalid: %d", queryTimeoutSec);
+        Validate.notNull(instance, "Instance can't be null");
 
         return (Connection) Proxy.newProxyInstance(
                 QueryTimeoutConnectionProxy.class.getClassLoader(),

@@ -48,6 +48,12 @@ public class QueryTimeoutConnectionProxyTest {
     }
 
     @Test
+    public void testCreateFailsOnNullInstance() {
+        Assert.assertThrows("Instance can't be null", NullPointerException.class,
+                () -> QueryTimeoutConnectionProxy.create(null, 1));
+    }
+
+    @Test
     public void testTimeoutIsSet() throws SQLException {
         MutableObject<Integer> timeout = new MutableObject<>();
         when(testConnection.createStatement()).thenReturn(testStatement);
