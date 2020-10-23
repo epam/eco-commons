@@ -26,23 +26,23 @@ import org.apache.commons.lang3.Validate;
 /**
  * @author Uladzislau_Belykh
  */
-final class ConnectionTimeoutWrapper {
+public abstract class QueryTimeoutConnectionProxy {
 
-    public static Connection wrap(Connection instance, int queryTimeoutSec) {
+    public static Connection create(Connection instance, int queryTimeoutSec) {
         Validate.isTrue(queryTimeoutSec >= 0, "Query timeout is invalid: %d", queryTimeoutSec);
 
         return (Connection) Proxy.newProxyInstance(
-                ConnectionTimeoutWrapper.class.getClassLoader(),
+                QueryTimeoutConnectionProxy.class.getClassLoader(),
                 new Class[]{Connection.class},
-                new ConnectionTimeoutInvocationHandler(instance, queryTimeoutSec));
+                new QueryTimeoutConnectionInvocationHandler(instance, queryTimeoutSec));
     }
 
-    private static class ConnectionTimeoutInvocationHandler implements InvocationHandler {
+    private static class QueryTimeoutConnectionInvocationHandler implements InvocationHandler {
 
         private final Connection instance;
-        private final int queryTimeoutSec;
 
-        public ConnectionTimeoutInvocationHandler(Connection instance, int queryTimeoutSec) {
+        private final int queryTimeoutSec;
+        public QueryTimeoutConnectionInvocationHandler(Connection instance, int queryTimeoutSec) {
             this.instance = instance;
             this.queryTimeoutSec = queryTimeoutSec;
         }
@@ -55,7 +55,8 @@ final class ConnectionTimeoutWrapper {
             }
             return result;
         }
-
     }
 
+    private QueryTimeoutConnectionProxy() {
+    }
 }
