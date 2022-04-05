@@ -26,5 +26,19 @@
         <Method name="&lt;clinit&gt;" />
         <Bug pattern="REDOS" />
     </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.diff.Diff" />
+        <Method name="getDiff" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.series.TimeSeries" />
+        <Method name="getGranularity" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Class name="com.epam.eco.commons.concurrent.ResourceSemaphores$ResourceSemaphore" />
+        <Bug pattern="FCBL_FIELD_COULD_BE_LOCAL" />
+    </Match>
 
 </FindBugsFilter>
