@@ -20,20 +20,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 /**
  * @author Uladzislau_Belykh
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class QueryTimeoutConnectionProxyTest {
 
     @Mock
@@ -43,14 +43,20 @@ public class QueryTimeoutConnectionProxyTest {
 
     @Test
     public void testCreateFailsOnNegativeTimeout() {
-        Assert.assertThrows("Query timeout is invalid: -1", IllegalArgumentException.class,
-                () -> QueryTimeoutConnectionProxy.create(testConnection, -1));
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> QueryTimeoutConnectionProxy.create(testConnection, -1),
+                "Query timeout is invalid: -1"
+        );
     }
 
     @Test
     public void testCreateFailsOnNullInstance() {
-        Assert.assertThrows("Instance can't be null", NullPointerException.class,
-                () -> QueryTimeoutConnectionProxy.create(null, 1));
+        Assertions.assertThrows(
+                NullPointerException.class,
+                () -> QueryTimeoutConnectionProxy.create(null, 1),
+                "Instance can't be null"
+        );
     }
 
     @Test
@@ -64,6 +70,6 @@ public class QueryTimeoutConnectionProxyTest {
         when(testStatement.getQueryTimeout()).thenAnswer(invocationOnMock -> timeout.getValue());
 
         Connection wrappedConnection = QueryTimeoutConnectionProxy.create(testConnection, 0);
-        Assert.assertEquals(0, wrappedConnection.createStatement().getQueryTimeout());
+        Assertions.assertEquals(0, wrappedConnection.createStatement().getQueryTimeout());
     }
 }

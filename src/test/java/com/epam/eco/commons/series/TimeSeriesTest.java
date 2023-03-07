@@ -22,8 +22,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Andrei_Tytsik
@@ -31,7 +33,7 @@ import org.junit.Test;
 public class TimeSeriesTest {
 
     @Test
-    public void testValuesDistributedByGranularity() throws Exception {
+    public void testValuesDistributedByGranularity() {
         TimeSeries<String> series = new TimeSeries<>(ChronoUnit.HOURS);
 
         LocalDateTime now = LocalDateTime.now();
@@ -41,9 +43,9 @@ public class TimeSeriesTest {
         series.append(now.plusSeconds(1), "2");
         series.append(now.plusMinutes(1), "3");
 
-        Assert.assertEquals(1, series.size());
+        Assertions.assertEquals(1, series.size());
         Iterator<String> iterator = series.toMap().values().iterator();
-        Assert.assertEquals("3", iterator.next());
+        Assertions.assertEquals("3", iterator.next());
 
         series.append(now, "0");
         series.append(now.plusHours(1), "1");
@@ -51,17 +53,17 @@ public class TimeSeriesTest {
         series.append(now.plusHours(3), "3");
         series.append(now.plusHours(4), "4");
 
-        Assert.assertEquals(5, series.size());
+        Assertions.assertEquals(5, series.size());
         iterator = series.toMap().values().iterator();
-        Assert.assertEquals("0", iterator.next());
-        Assert.assertEquals("1", iterator.next());
-        Assert.assertEquals("2", iterator.next());
-        Assert.assertEquals("3", iterator.next());
-        Assert.assertEquals("4", iterator.next());
+        Assertions.assertEquals("0", iterator.next());
+        Assertions.assertEquals("1", iterator.next());
+        Assertions.assertEquals("2", iterator.next());
+        Assertions.assertEquals("3", iterator.next());
+        Assertions.assertEquals("4", iterator.next());
     }
 
     @Test
-    public void testSizeLimited() throws Exception {
+    public void testSizeLimited() {
         TimeSeries<String> series = new TimeSeries<>(3);
 
         LocalDateTime now = LocalDateTime.now();
@@ -73,11 +75,11 @@ public class TimeSeriesTest {
         series.append(now.plusMinutes(4), "4");
         series.append(now.plusMinutes(5), "5");
 
-        Assert.assertEquals(3, series.size());
+        Assertions.assertEquals(3, series.size());
     }
 
     @Test
-    public void testDataMapResolved() throws Exception {
+    public void testDataMapResolved() {
         TimeSeries<String> series = new TimeSeries<>(3);
 
         LocalDateTime now = LocalDateTime.now();
@@ -90,37 +92,39 @@ public class TimeSeriesTest {
         series.append(now.plusMinutes(5), "5");
 
         Map<LocalDateTime, String> data = series.toMap();
-        Assert.assertNotNull(data);
-        Assert.assertEquals(3, data.size());
+        Assertions.assertNotNull(data);
+        Assertions.assertEquals(3, data.size());
 
         Iterator<String> iterator = series.toMap().values().iterator();
-        Assert.assertEquals("3", iterator.next());
-        Assert.assertEquals("4", iterator.next());
-        Assert.assertEquals("5", iterator.next());
+        Assertions.assertEquals("3", iterator.next());
+        Assertions.assertEquals("4", iterator.next());
+        Assertions.assertEquals("5", iterator.next());
     }
 
     @Test
-    public void testCopyCreated() throws Exception {
+    public void testCopyCreated() {
         TimeSeries<String> series = new TimeSeries<>(3);
 
         TimeSeries<String> copy = series.copy();
 
-        Assert.assertNotNull(copy);
-    }
-
-    @Test(expected=Exception.class)
-    public void testUnmodifiableCopyCreated() throws Exception {
-        TimeSeries<String> series = new TimeSeries<>(3);
-
-        TimeSeries<String> copy = series.unmodifiableCopy();
-
-        Assert.assertNotNull(copy);
-
-        copy.append(LocalDateTime.now(), "1");
+        Assertions.assertNotNull(copy);
     }
 
     @Test
-    public void testDataIterated() throws Exception {
+    public void testUnmodifiableCopyCreated() {
+        assertThrows(Exception.class, () -> {
+            TimeSeries<String> series = new TimeSeries<>(3);
+
+            TimeSeries<String> copy = series.unmodifiableCopy();
+
+            Assertions.assertNotNull(copy);
+
+            copy.append(LocalDateTime.now(), "1");
+        });
+    }
+
+    @Test
+    public void testDataIterated() {
         TimeSeries<String> series = new TimeSeries<>(3);
 
         LocalDateTime now = LocalDateTime.now();
@@ -133,22 +137,22 @@ public class TimeSeriesTest {
         series.append(now.plusMinutes(5), "5");
 
         Iterator<Entry<LocalDateTime, String>> iterator = series.iterator();
-        Assert.assertNotNull(iterator);
+        Assertions.assertNotNull(iterator);
 
-        Assert.assertTrue(iterator.hasNext());
-        Assert.assertEquals("3", iterator.next().getValue());
+        Assertions.assertTrue(iterator.hasNext());
+        Assertions.assertEquals("3", iterator.next().getValue());
 
-        Assert.assertTrue(iterator.hasNext());
-        Assert.assertEquals("4", iterator.next().getValue());
+        Assertions.assertTrue(iterator.hasNext());
+        Assertions.assertEquals("4", iterator.next().getValue());
 
-        Assert.assertTrue(iterator.hasNext());
-        Assert.assertEquals("5", iterator.next().getValue());
+        Assertions.assertTrue(iterator.hasNext());
+        Assertions.assertEquals("5", iterator.next().getValue());
 
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void testKeyAndValueResolved() throws Exception {
+    public void testKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
         LocalDateTime now = LocalDateTime.now();
@@ -161,25 +165,25 @@ public class TimeSeriesTest {
         series.append(key2, "2");
         series.append(key3, "3");
 
-        Assert.assertNotNull(series.key(key1));
+        Assertions.assertNotNull(series.key(key1));
         String value = series.value(key1);
-        Assert.assertEquals("1", value);
+        Assertions.assertEquals("1", value);
 
-        Assert.assertNotNull(series.key(key2));
+        Assertions.assertNotNull(series.key(key2));
         value = series.value(key2);
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
-        Assert.assertNotNull(series.key(key3));
+        Assertions.assertNotNull(series.key(key3));
         value = series.value(key3);
-        Assert.assertEquals("3", value);
+        Assertions.assertEquals("3", value);
     }
 
     @Test
-    public void testFirstKeyAndValueResolved() throws Exception {
+    public void testFirstKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
-        Assert.assertNull(series.firstKey());
-        Assert.assertNull(series.firstValue());
+        Assertions.assertNull(series.firstKey());
+        Assertions.assertNull(series.firstValue());
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -188,21 +192,21 @@ public class TimeSeriesTest {
         series.append(now.plusMinutes(3), "3");
 
         LocalDateTime key = series.firstKey();
-        Assert.assertNotNull(key);
+        Assertions.assertNotNull(key);
 
         String value = series.value(key);
-        Assert.assertEquals("1", value);
+        Assertions.assertEquals("1", value);
 
         value = series.firstValue();
-        Assert.assertEquals("1", value);
+        Assertions.assertEquals("1", value);
     }
 
     @Test
-    public void testLastKeyAndValueResolved() throws Exception {
+    public void testLastKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
-        Assert.assertNull(series.lastKey());
-        Assert.assertNull(series.lastValue());
+        Assertions.assertNull(series.lastKey());
+        Assertions.assertNull(series.lastValue());
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -211,23 +215,23 @@ public class TimeSeriesTest {
         series.append(now.plusMinutes(3), "3");
 
         LocalDateTime key = series.lastKey();
-        Assert.assertNotNull(key);
+        Assertions.assertNotNull(key);
 
         String value = series.value(key);
-        Assert.assertEquals("3", value);
+        Assertions.assertEquals("3", value);
 
         value = series.lastValue();
-        Assert.assertEquals("3", value);
+        Assertions.assertEquals("3", value);
     }
 
     @Test
-    public void testNextKeyAndValueResolved() throws Exception {
+    public void testNextKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
         LocalDateTime now = LocalDateTime.now();
 
-        Assert.assertNull(series.nextKey(now));
-        Assert.assertNull(series.nextValue(now));
+        Assertions.assertNull(series.nextKey(now));
+        Assertions.assertNull(series.nextValue(now));
 
         LocalDateTime key1 = now.plusMinutes(1);
         LocalDateTime key2 = now.plusMinutes(20);
@@ -238,32 +242,32 @@ public class TimeSeriesTest {
         series.append(key3, "3");
 
         // 2
-        Assert.assertNotNull(series.nextKey(key1));
+        Assertions.assertNotNull(series.nextKey(key1));
 
         String value = series.value(series.nextKey(key1));
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         value = series.nextValue(key1);
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         // 3
-        Assert.assertNotNull(series.nextKey(key2));
+        Assertions.assertNotNull(series.nextKey(key2));
 
         value = series.value(series.nextKey(key2));
-        Assert.assertEquals("3", value);
+        Assertions.assertEquals("3", value);
 
         value = series.nextValue(key2);
-        Assert.assertEquals("3", value);
+        Assertions.assertEquals("3", value);
     }
 
     @Test
-    public void testPreviousKeyAndValueResolved() throws Exception {
+    public void testPreviousKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
         LocalDateTime now = LocalDateTime.now();
 
-        Assert.assertNull(series.nextKey(now));
-        Assert.assertNull(series.nextValue(now));
+        Assertions.assertNull(series.nextKey(now));
+        Assertions.assertNull(series.nextValue(now));
 
         LocalDateTime key1 = now.plusMinutes(1);
         LocalDateTime key2 = now.plusMinutes(20);
@@ -274,32 +278,32 @@ public class TimeSeriesTest {
         series.append(key3, "3");
 
         // 2
-        Assert.assertNotNull(series.previousKey(key3));
+        Assertions.assertNotNull(series.previousKey(key3));
 
         String value = series.value(series.previousKey(key3));
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         value = series.previousValue(key3);
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         // 1
-        Assert.assertNotNull(series.previousKey(key2));
+        Assertions.assertNotNull(series.previousKey(key2));
 
         value = series.value(series.previousKey(key2));
-        Assert.assertEquals("1", value);
+        Assertions.assertEquals("1", value);
 
         value = series.previousValue(key2);
-        Assert.assertEquals("1", value);
+        Assertions.assertEquals("1", value);
     }
 
     @Test
-    public void testNextSerialKeyAndValueResolved() throws Exception {
+    public void testNextSerialKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
         LocalDateTime now = LocalDateTime.now();
 
-        Assert.assertNull(series.nextKey(now));
-        Assert.assertNull(series.nextValue(now));
+        Assertions.assertNull(series.nextKey(now));
+        Assertions.assertNull(series.nextValue(now));
 
         LocalDateTime key1 = now.plusMinutes(1);
         LocalDateTime key2 = now.plusMinutes(2);
@@ -310,27 +314,27 @@ public class TimeSeriesTest {
         series.append(key3, "3");
 
         // 2
-        Assert.assertNotNull(series.nextSerialKey(key1));
+        Assertions.assertNotNull(series.nextSerialKey(key1));
 
         String value = series.value(series.nextSerialKey(key1));
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         value = series.nextSerialValue(key1);
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         // null
-        Assert.assertNull(series.nextSerialKey(key2));
-        Assert.assertNull(series.nextSerialValue(key2));
+        Assertions.assertNull(series.nextSerialKey(key2));
+        Assertions.assertNull(series.nextSerialValue(key2));
     }
 
     @Test
-    public void testPreviousSerialKeyAndValueResolved() throws Exception {
+    public void testPreviousSerialKeyAndValueResolved() {
         TimeSeries<String> series = new TimeSeries<>(5);
 
         LocalDateTime now = LocalDateTime.now();
 
-        Assert.assertNull(series.nextKey(now));
-        Assert.assertNull(series.nextValue(now));
+        Assertions.assertNull(series.nextKey(now));
+        Assertions.assertNull(series.nextValue(now));
 
         LocalDateTime key1 = now.plusMinutes(1);
         LocalDateTime key2 = now.plusMinutes(20);
@@ -341,153 +345,156 @@ public class TimeSeriesTest {
         series.append(key3, "3");
 
         // 2
-        Assert.assertNotNull(series.previousSerialKey(key3));
+        Assertions.assertNotNull(series.previousSerialKey(key3));
 
         String value = series.value(series.previousSerialKey(key3));
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         value = series.previousSerialValue(key3);
-        Assert.assertEquals("2", value);
+        Assertions.assertEquals("2", value);
 
         // null
-        Assert.assertNull(series.previousSerialKey(key2));
-        Assert.assertNull(series.previousSerialValue(key2));
+        Assertions.assertNull(series.previousSerialKey(key2));
+        Assertions.assertNull(series.previousSerialValue(key2));
     }
 
     @Test
-    public void testValuesMerged() throws Exception {
+    public void testValuesMerged() {
         TimeSeries<Integer> series = new TimeSeries<>(3, MergeFunction.addInt());
 
         LocalDateTime date = LocalDateTime.now().plusMinutes(10);
 
         series.append(date, 1);
-        Assert.assertEquals(Integer.valueOf(1), series.value(date));
+        Assertions.assertEquals(Integer.valueOf(1), series.value(date));
 
         series.append(date, 2);
-        Assert.assertEquals(Integer.valueOf(3), series.value(date));
+        Assertions.assertEquals(Integer.valueOf(3), series.value(date));
 
         series.append(date, 3);
-        Assert.assertEquals(Integer.valueOf(6), series.value(date));
+        Assertions.assertEquals(Integer.valueOf(6), series.value(date));
 
         series.append(date, 4);
-        Assert.assertEquals(Integer.valueOf(10), series.value(date));
+        Assertions.assertEquals(Integer.valueOf(10), series.value(date));
 
         series.append(date, 5);
-        Assert.assertEquals(Integer.valueOf(15), series.value(date));
+        Assertions.assertEquals(Integer.valueOf(15), series.value(date));
     }
 
-    @Test(expected=Exception.class)
-    public void testUnmodifiable1() throws Exception {
-        new TimeSeries<>().toMap().put(LocalDateTime.now(), "1");
+    @Test
+    public void testUnmodifiable1() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().toMap().put(LocalDateTime.now(), "1"));
     }
 
-    @Test(expected=Exception.class)
-    public void testUnmodifiable2() throws Exception {
-        TimeSeries<String> series = new TimeSeries<>(3);
+    @Test
+    public void testUnmodifiable2() {
+        assertThrows(Exception.class, () -> {
+            TimeSeries<String> series = new TimeSeries<>(3);
 
-        LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now();
 
-        series.append(now, "0");
-        series.append(now.plusMinutes(1), "1");
-        series.append(now.plusMinutes(2), "2");
-        series.append(now.plusMinutes(3), "3");
+            series.append(now, "0");
+            series.append(now.plusMinutes(1), "1");
+            series.append(now.plusMinutes(2), "2");
+            series.append(now.plusMinutes(3), "3");
 
-        series.iterator().remove();
+            series.iterator().remove();
+        });
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments1() throws Exception {
-        new TimeSeries<>((TemporalUnit)null);
+    @Test
+    public void testFailsOnIllegalArguments1() {
+        assertThrows(Exception.class, () -> new TimeSeries<>((TemporalUnit)null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments2() throws Exception {
-        new TimeSeries<>(-1);
+    @Test
+    public void testFailsOnIllegalArguments2() {
+        assertThrows(Exception.class, () -> new TimeSeries<>(-1));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments3() throws Exception {
-        new TimeSeries<>((MergeFunction<?>)null);
+    @Test
+    public void testFailsOnIllegalArguments3() {
+        assertThrows(Exception.class, () -> new TimeSeries<>((MergeFunction<?>)null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments4() throws Exception {
-        new TimeSeries<>(-1, ChronoUnit.DAYS);
+    @Test
+    public void testFailsOnIllegalArguments4() {
+        assertThrows(Exception.class, () -> new TimeSeries<>(-1, ChronoUnit.DAYS));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments5() throws Exception {
-        new TimeSeries<>(100, (TemporalUnit)null);
+    @Test
+    public void testFailsOnIllegalArguments5() {
+        assertThrows(Exception.class, () -> new TimeSeries<>(100, (TemporalUnit)null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments6() throws Exception {
-        new TimeSeries<>(-1, MergeFunction.replace());
+    @Test
+    public void testFailsOnIllegalArguments6() {
+        assertThrows(Exception.class, () -> new TimeSeries<>(-1, MergeFunction.replace()));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments7() throws Exception {
-        new TimeSeries<>(100, (MergeFunction<?>)null);
+    @Test
+    public void testFailsOnIllegalArguments7() {
+        assertThrows(Exception.class, () -> new TimeSeries<>(100, (MergeFunction<?>)null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments8() throws Exception {
-        new TimeSeries<>().append(null, new Object());
+    @Test
+    public void testFailsOnIllegalArguments8() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().append(null, new Object()));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments9() throws Exception {
-        new TimeSeries<>().append(LocalDateTime.now(), null);
+    @Test
+    public void testFailsOnIllegalArguments9() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().append(LocalDateTime.now(), null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments10() throws Exception {
-        new TimeSeries<>().nextKey(null);
+    @Test
+    public void testFailsOnIllegalArguments10() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().nextKey(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments11() throws Exception {
-        new TimeSeries<>().previousKey(null);
+    @Test
+    public void testFailsOnIllegalArguments11() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().previousKey(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments12() throws Exception {
-        new TimeSeries<>().nextSerialKey(null);
+    @Test
+    public void testFailsOnIllegalArguments12() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().nextSerialKey(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments13() throws Exception {
-        new TimeSeries<>().previousSerialKey(null);
+    @Test
+    public void testFailsOnIllegalArguments13() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().previousSerialKey(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments14() throws Exception {
-        new TimeSeries<>().nextValue(null);
+    @Test
+    public void testFailsOnIllegalArguments14() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().nextValue(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments15() throws Exception {
-        new TimeSeries<>().previousValue(null);
+    @Test
+    public void testFailsOnIllegalArguments15() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().previousValue(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments16() throws Exception {
-        new TimeSeries<>().nextSerialValue(null);
+    @Test
+    public void testFailsOnIllegalArguments16() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().nextSerialValue(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments17() throws Exception {
-        new TimeSeries<>().previousSerialValue(null);
+    @Test
+    public void testFailsOnIllegalArguments17() {
+        assertThrows(Exception.class, () -> new TimeSeries<>().previousSerialValue(null));
     }
 
-    @Test(expected=Exception.class)
-    public void testFailsOnIllegalArguments18() throws Exception {
-        TimeSeries<String> series = new TimeSeries<>(5);
+    @Test
+    public void testFailsOnIllegalArguments18() {
+        assertThrows(Exception.class, () -> {
+            TimeSeries<String> series = new TimeSeries<>(5);
 
-        LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now();
 
-        series.append(now, "1");
-        series.append(now.minusHours(1), "2");
+            series.append(now, "1");
+            series.append(now.minusHours(1), "2");
+        });
     }
-
 }

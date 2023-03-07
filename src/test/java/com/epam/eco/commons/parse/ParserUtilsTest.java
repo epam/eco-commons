@@ -18,8 +18,10 @@ package com.epam.eco.commons.parse;
 import java.time.DayOfWeek;
 import java.util.Date;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Andrei_Tytsik
@@ -27,278 +29,279 @@ import org.junit.Test;
 public class ParserUtilsTest {
 
     @Test
-    public void testBooleanParsedFromBoolean() throws Exception {
+    public void testBooleanParsedFromBoolean() {
         Boolean parsed = ParserUtils.parseBoolean(Boolean.TRUE);
 
-        Assert.assertEquals(Boolean.TRUE, parsed);
+        Assertions.assertEquals(Boolean.TRUE, parsed);
     }
 
     @Test
-    public void testBooleanParsedFromString1() throws Exception {
+    public void testBooleanParsedFromString1() {
         Boolean parsed = ParserUtils.parseBoolean("true");
 
-        Assert.assertEquals(Boolean.TRUE, parsed);
+        Assertions.assertEquals(Boolean.TRUE, parsed);
     }
 
     @Test
-    public void testBooleanParsedFromString2() throws Exception {
+    public void testBooleanParsedFromString2() {
         Boolean parsed = ParserUtils.parseBoolean("yes");
 
-        Assert.assertEquals(Boolean.FALSE, parsed);
-    }
-
-    @Test(expected = ParseException.class)
-    public void testBooleanParsingFailsOnIllegalInput() throws Exception {
-        ParserUtils.parseBoolean(new Object());
+        Assertions.assertEquals(Boolean.FALSE, parsed);
     }
 
     @Test
-    public void testByteIsParsedFromByte() throws Exception {
+    public void testBooleanParsingFailsOnIllegalInput() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseBoolean(new Object()));
+    }
+
+    @Test
+    public void testByteIsParsedFromByte() {
         Byte parsed = ParserUtils.parseByte(Byte.MAX_VALUE);
 
-        Assert.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
+        Assertions.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testByteIsParsedFromNumber() throws Exception {
+    public void testByteIsParsedFromNumber() {
         Byte parsed = ParserUtils.parseByte((long)Byte.MAX_VALUE);
 
-        Assert.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
+        Assertions.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testByteIsParsedFromString() throws Exception {
+    public void testByteIsParsedFromString() {
         Byte parsed = ParserUtils.parseByte("" + Byte.MAX_VALUE);
 
-        Assert.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testByteParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseByte(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testByteParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseByte("");
+        Assertions.assertEquals(Byte.valueOf(Byte.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testShortIsParsedFromShort() throws Exception {
+    public void testByteParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseByte(new Object()));
+    }
+
+    @Test
+    public void testByteParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseByte(""));
+    }
+
+    @Test
+    public void testShortIsParsedFromShort() {
         Short parsed = ParserUtils.parseShort(Short.MAX_VALUE);
 
-        Assert.assertEquals(Short.valueOf(Short.MAX_VALUE), parsed);
+        Assertions.assertEquals(Short.valueOf(Short.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testShortIsParsedFromNumber() throws Exception {
+    public void testShortIsParsedFromNumber() {
         Short parsed = ParserUtils.parseShort(Byte.MAX_VALUE);
 
-        Assert.assertEquals(Short.valueOf(Byte.MAX_VALUE), parsed);
+        Assertions.assertEquals(Short.valueOf(Byte.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testShortIsParsedFromString() throws Exception {
+    public void testShortIsParsedFromString() {
         Short parsed = ParserUtils.parseShort("" + Short.MAX_VALUE);
 
-        Assert.assertEquals(Short.valueOf(Short.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testShortParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseShort(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testShortParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseShort("");
+        Assertions.assertEquals(Short.valueOf(Short.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testIntegerIsParsedFromInteger() throws Exception {
+    public void testShortParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseShort(new Object()));
+    }
+
+    @Test
+    public void testShortParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseShort(""));
+    }
+
+    @Test
+    public void testIntegerIsParsedFromInteger() {
         Integer parsed = ParserUtils.parseInt(Integer.MAX_VALUE);
 
-        Assert.assertEquals(Integer.valueOf(Integer.MAX_VALUE), parsed);
+        Assertions.assertEquals(Integer.valueOf(Integer.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testIntegerIsParsedFromNumber() throws Exception {
+    public void testIntegerIsParsedFromNumber() {
         Integer parsed = ParserUtils.parseInt(Short.MAX_VALUE);
 
-        Assert.assertEquals(Integer.valueOf(Short.MAX_VALUE), parsed);
+        Assertions.assertEquals(Integer.valueOf(Short.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testIntegerIsParsedFromString() throws Exception {
+    public void testIntegerIsParsedFromString() {
         Integer parsed = ParserUtils.parseInt("" + Integer.MAX_VALUE);
 
-        Assert.assertEquals(Integer.valueOf(Integer.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testIntegerParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseInt(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testIntegerParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseInt("");
+        Assertions.assertEquals(Integer.valueOf(Integer.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testLongIsParsedFromLong() throws Exception {
+    public void testIntegerParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseInt(new Object()));
+    }
+
+    @Test
+    public void testIntegerParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseInt(""));
+    }
+
+    @Test
+    public void testLongIsParsedFromLong() {
         Long parsed = ParserUtils.parseLong(Long.MAX_VALUE);
 
-        Assert.assertEquals(Long.valueOf(Long.MAX_VALUE), parsed);
+        Assertions.assertEquals(Long.valueOf(Long.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testLongIsParsedFromNumber() throws Exception {
+    public void testLongIsParsedFromNumber() {
         Long parsed = ParserUtils.parseLong(Integer.MAX_VALUE);
 
-        Assert.assertEquals(Long.valueOf(Integer.MAX_VALUE), parsed);
+        Assertions.assertEquals(Long.valueOf(Integer.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testLongIsParsedFromString() throws Exception {
+    public void testLongIsParsedFromString() {
         Long parsed = ParserUtils.parseLong("" + Long.MAX_VALUE);
 
-        Assert.assertEquals(Long.valueOf(Long.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testLongParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseLong(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testLongParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseLong("");
+        Assertions.assertEquals(Long.valueOf(Long.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testFloatIsParsedFromFloat() throws Exception {
+    public void testLongParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseLong(new Object()));
+    }
+
+    @Test
+    public void testLongParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseLong(""));
+    }
+
+    @Test
+    public void testFloatIsParsedFromFloat() {
         Float parsed = ParserUtils.parseFloat(Float.MAX_VALUE);
 
-        Assert.assertEquals(Float.valueOf(Float.MAX_VALUE), parsed);
+        Assertions.assertEquals(Float.valueOf(Float.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testFloatIsParsedFromNumber() throws Exception {
+    public void testFloatIsParsedFromNumber() {
         Float parsed = ParserUtils.parseFloat(Integer.MAX_VALUE);
 
-        Assert.assertEquals(Float.valueOf(Integer.MAX_VALUE), parsed);
+        Assertions.assertEquals(Float.valueOf(Integer.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testFloatIsParsedFromString() throws Exception {
+    public void testFloatIsParsedFromString() {
         Float parsed = ParserUtils.parseFloat("" + Float.MAX_VALUE);
 
-        Assert.assertEquals(Float.valueOf(Float.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testFloatParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseFloat(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testFloatParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseFloat("");
+        Assertions.assertEquals(Float.valueOf(Float.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testDoubleIsParsedFromDouble() throws Exception {
+    public void testFloatParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseFloat(new Object()));
+    }
+
+    @Test
+    public void testFloatParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseFloat(""));
+    }
+
+    @Test
+    public void testDoubleIsParsedFromDouble() {
         Double parsed = ParserUtils.parseDouble(Double.MAX_VALUE);
 
-        Assert.assertEquals(Double.valueOf(Double.MAX_VALUE), parsed);
+        Assertions.assertEquals(Double.valueOf(Double.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testDoubleIsParsedFromNumber() throws Exception {
+    public void testDoubleIsParsedFromNumber() {
         Double parsed = ParserUtils.parseDouble(Integer.MAX_VALUE);
 
-        Assert.assertEquals(Double.valueOf(Integer.MAX_VALUE), parsed);
+        Assertions.assertEquals(Double.valueOf(Integer.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testDoubleIsParsedFromString() throws Exception {
+    public void testDoubleIsParsedFromString() {
         Double parsed = ParserUtils.parseDouble("" + Double.MAX_VALUE);
 
-        Assert.assertEquals(Double.valueOf(Double.MAX_VALUE), parsed);
-    }
-
-    @Test(expected=ParseException.class)
-    public void testDoubleParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseDouble(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testDoubleParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseDouble("");
+        Assertions.assertEquals(Double.valueOf(Double.MAX_VALUE), parsed);
     }
 
     @Test
-    public void testDateIsParsedFromDate() throws Exception {
+    public void testDoubleParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDouble(new Object()));
+    }
+
+    @Test
+    public void testDoubleParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDouble(""));
+    }
+
+    @Test
+    public void testDateIsParsedFromDate() {
         Date date = new Date(System.currentTimeMillis());
 
         Date parsed = ParserUtils.parseDate(date);
 
-        Assert.assertEquals(date, parsed);
+        Assertions.assertEquals(date, parsed);
     }
 
     @Test
-    public void testDateIsParsedFromString() throws Exception {
+    public void testDateIsParsedFromString() {
         Date date = new Date(0);
 
         Date parsed = ParserUtils.parseDate("1970-01-01T00:00:00");
 
-        Assert.assertEquals(date, parsed);
+        Assertions.assertEquals(date, parsed);
     }
 
     @SuppressWarnings("unused")
-    @Test(expected = ParseException.class)
-    public void testDateIsParsedFromBadStringWithBadPattern() throws Exception {
-        Date date = new Date(System.currentTimeMillis());
-
-        Date parsed = ParserUtils.parseDate("abcd", "abcd");
-    }
-
-    @Test(expected=ParseException.class)
-    public void testDateParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseDate(new Object());
-    }
-
-    @Test(expected=ParseException.class)
-    public void testDateParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseDate("");
+    @Test
+    public void testDateIsParsedFromBadStringWithBadPattern() {
+        assertThrows(ParseException.class, () -> {
+            Date date = new Date(System.currentTimeMillis());
+            Date parsed = ParserUtils.parseDate("abcd", "abcd");
+        });
     }
 
     @Test
-    public void testStringIsParsedFromString() throws Exception {
+    public void testDateParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDate(new Object()));
+    }
+
+    @Test
+    public void testDateParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDate(""));
+    }
+
+    @Test
+    public void testStringIsParsedFromString() {
         String parsed = ParserUtils.parseString("Test");
 
-        Assert.assertEquals("Test", parsed);
+        Assertions.assertEquals("Test", parsed);
     }
 
-    @Test(expected=ParseException.class)
-    public void testStringParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseDate(new Object());
+    @Test
+    public void testStringParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDate(new Object()));
     }
 
-    @Test(expected=ParseException.class)
-    public void testStringParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseString(42);
+    @Test
+    public void testStringParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseString(42));
     }
 
-    @Test(expected=ParseException.class)
-    public void testListParsingFailsOnIllegalInput1() throws Exception {
-        ParserUtils.parseDate(new Object());
+    @Test
+    public void testListParsingFailsOnIllegalInput1() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDate(new Object()));
     }
 
-    @Test(expected=ParseException.class)
-    public void testListParsingFailsOnIllegalInput2() throws Exception {
-        ParserUtils.parseDate(42);
+    @Test
+    public void testListParsingFailsOnIllegalInput2() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseDate(42));
     }
 
     @Test
@@ -307,9 +310,9 @@ public class ParserUtilsTest {
         DayOfWeek tuesday = ParserUtils.parseEnum(DayOfWeek.TUESDAY, DayOfWeek.class);
         DayOfWeek friday = ParserUtils.parseEnum(DayOfWeek.FRIDAY, DayOfWeek.class);
 
-        Assert.assertEquals(DayOfWeek.MONDAY, monday);
-        Assert.assertEquals(DayOfWeek.TUESDAY, tuesday);
-        Assert.assertEquals(DayOfWeek.FRIDAY, friday);
+        Assertions.assertEquals(DayOfWeek.MONDAY, monday);
+        Assertions.assertEquals(DayOfWeek.TUESDAY, tuesday);
+        Assertions.assertEquals(DayOfWeek.FRIDAY, friday);
     }
 
     @Test
@@ -318,14 +321,14 @@ public class ParserUtilsTest {
         DayOfWeek tuesday = ParserUtils.parseEnum("tuesday", DayOfWeek.class);
         DayOfWeek friday = ParserUtils.parseEnum("friday", DayOfWeek.class);
 
-        Assert.assertEquals(DayOfWeek.MONDAY, monday);
-        Assert.assertEquals(DayOfWeek.TUESDAY, tuesday);
-        Assert.assertEquals(DayOfWeek.FRIDAY, friday);
+        Assertions.assertEquals(DayOfWeek.MONDAY, monday);
+        Assertions.assertEquals(DayOfWeek.TUESDAY, tuesday);
+        Assertions.assertEquals(DayOfWeek.FRIDAY, friday);
     }
 
-    @Test(expected = ParseException.class)
-    public void testEnumParsingFailsOnIllegalInput() throws Exception {
-        ParserUtils.parseEnum("weekend", DayOfWeek.class);
+    @Test
+    public void testEnumParsingFailsOnIllegalInput() {
+        assertThrows(ParseException.class, () -> ParserUtils.parseEnum("weekend", DayOfWeek.class));
     }
 
 }

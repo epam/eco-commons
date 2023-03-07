@@ -15,10 +15,8 @@
  *******************************************************************************/
 package com.epam.eco.commons.web;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.epam.eco.commons.web.UrlUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Andrei_Tytsik
@@ -26,22 +24,22 @@ import com.epam.eco.commons.web.UrlUtils;
 public class UrlUtilsTest {
 
     @Test
-    public void testUrlIsValid() throws Exception {
-        Assert.assertTrue(UrlUtils.isValidUrl("http://example.com"));
-        Assert.assertTrue(UrlUtils.isValidUrl("http://example.com/segment?a=1&b=2"));
+    public void testUrlIsValid() {
+        Assertions.assertTrue(UrlUtils.isValidUrl("http://example.com"));
+        Assertions.assertTrue(UrlUtils.isValidUrl("http://example.com/segment?a=1&b=2"));
     }
 
     @Test
-    public void testUrlIsInvalid() throws Exception {
-        Assert.assertFalse(UrlUtils.isValidUrl(null));
-        Assert.assertFalse(UrlUtils.isValidUrl(""));
-        Assert.assertFalse(UrlUtils.isValidUrl("url"));
-        Assert.assertFalse(UrlUtils.isValidUrl("http:"));
-        Assert.assertFalse(UrlUtils.isValidUrl("http://"));
-        Assert.assertFalse(UrlUtils.isValidUrl("javascript:alert('XSS')"));
-        Assert.assertFalse(UrlUtils.isValidUrl("<script>alert('XSS')</script>"));
-        Assert.assertFalse(UrlUtils.isValidUrl("http://example.com#javascript:alert('XSS')"));
-        Assert.assertFalse(UrlUtils.isValidUrl("http://example.com?e=<script>alert('XSS')</script>"));
+    public void testUrlIsInvalid() {
+        Assertions.assertFalse(UrlUtils.isValidUrl(null));
+        Assertions.assertFalse(UrlUtils.isValidUrl(""));
+        Assertions.assertFalse(UrlUtils.isValidUrl("url"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("http:"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("http://"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("javascript:alert('XSS')"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("<script>alert('XSS')</script>"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("http://example.com#javascript:alert('XSS')"));
+        Assertions.assertFalse(UrlUtils.isValidUrl("http://example.com?e=<script>alert('XSS')</script>"));
     }
 
 }

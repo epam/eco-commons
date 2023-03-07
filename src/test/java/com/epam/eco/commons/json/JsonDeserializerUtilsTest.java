@@ -18,9 +18,8 @@ package com.epam.eco.commons.json;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -35,41 +34,42 @@ import com.epam.eco.commons.utils.TestEntity;
 import com.epam.eco.commons.utils.TestEntityFields;
 import com.epam.eco.commons.utils.TestUtils;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * @author Raman_Babich
  */
 public class JsonDeserializerUtilsTest {
 
-    private static ObjectMapper objectMapper;
-
-    @BeforeClass
-    public static void init() {
-        objectMapper = new ObjectMapper()
-                .registerModule(new JavaTimeModule())
-                .registerModule(new SimpleModule().addDeserializer(TestEntity.class, new TestEntityDeserializer()));
-    }
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .registerModule(new SimpleModule().addDeserializer(TestEntity.class, new TestEntityDeserializer()));
 
     @Test
     public void testAssertions() throws IOException {
         ObjectNode node = TestUtils.getTestEntityObjectNode(objectMapper);
         TestEntity testEntity = objectMapper.readValue(node.toString(), TestEntity.class);
-        Assert.assertNotNull(testEntity);
+        Assertions.assertNotNull(testEntity);
     }
 
-    @Test(expected = IOException.class)
-    public void testAssertNotNullValue() throws IOException {
-        ObjectNode node = TestUtils.getTestEntityObjectNode(objectMapper);
-        node.remove(TestEntityFields.NAME);
-        TestEntity testEntity = objectMapper.readValue(node.toString(), TestEntity.class);
-        Assert.assertNotNull(testEntity);
+    @Test
+    public void testAssertNotNullValue() {
+        assertThrows(IOException.class, () -> {
+            ObjectNode node = TestUtils.getTestEntityObjectNode(objectMapper);
+            node.remove(TestEntityFields.NAME);
+            TestEntity testEntity = objectMapper.readValue(node.toString(), TestEntity.class);
+            Assertions.assertNotNull(testEntity);
+        });
     }
 
-    @Test(expected = IOException.class)
-    public void testAssertRequiredField() throws IOException {
-        ObjectNode node = TestUtils.getTestEntityObjectNode(objectMapper);
-        node.remove(TestEntityFields.ID);
-        TestEntity testEntity = objectMapper.readValue(node.toString(), TestEntity.class);
-        Assert.assertNotNull(testEntity);
+    @Test
+    public void testAssertRequiredField() {
+        assertThrows(IOException.class, () -> {
+            ObjectNode node = TestUtils.getTestEntityObjectNode(objectMapper);
+            node.remove(TestEntityFields.ID);
+            TestEntity testEntity = objectMapper.readValue(node.toString(), TestEntity.class);
+            Assertions.assertNotNull(testEntity);
+        });
     }
 
     public static class TestEntityDeserializer extends StdDeserializer<TestEntity> {

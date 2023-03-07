@@ -21,7 +21,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Andrei_Tytsik
@@ -29,65 +31,65 @@ import org.junit.Test;
 @SuppressWarnings("deprecation")
 public class UnmodifiableMapDecoratorTest {
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnClear() throws Exception {
-        testMap().clear();
+    @Test
+    public void testFailsOnClear() {
+        assertThrows(UnsupportedOperationException.class, () -> testMap().clear());
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnPut() throws Exception {
-        testMap().put("key1", "value1");
+    @Test
+    public void testFailsOnPut() {
+        assertThrows(UnsupportedOperationException.class, () -> testMap().put("key1", "value1"));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnPutAll() throws Exception {
+    @Test
+    public void testFailsOnPutAll() {
         Map<String, String> map = new HashMap<>();
         map.put("key1", "value1");
 
-        testMap().putAll(map);
+        assertThrows(UnsupportedOperationException.class, () -> testMap().putAll(map));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemove() throws Exception {
-        testMap().remove("key");
+    @Test
+    public void testFailsOnRemove() {
+        assertThrows(UnsupportedOperationException.class, () -> testMap().remove("key"));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromEntrySet() throws Exception {
+    @Test
+    public void testFailsOnRemoveFromEntrySet() {
         Set<Entry<String, String>> entrySet = testMap().entrySet();
         Entry<String, String> entry = entrySet.iterator().next();
-        entrySet.remove(entry);
+        assertThrows(UnsupportedOperationException.class, () -> entrySet.remove(entry));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromEntrySetIterator() throws Exception {
+    @Test
+    public void testFailsOnRemoveFromEntrySetIterator() {
         Iterator<Entry<String, String>> iterator = testMap().entrySet().iterator();
         iterator.next();
-        iterator.remove();
+        assertThrows(UnsupportedOperationException.class, iterator::remove);
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromKeySet() throws Exception {
-        testMap().keySet().remove("key");
+    @Test
+    public void testFailsOnRemoveFromKeySet() {
+        assertThrows(UnsupportedOperationException.class, () -> testMap().keySet().remove("key"));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromKeySetIterator() throws Exception {
+    @Test
+    public void testFailsOnRemoveFromKeySetIterator() {
         Iterator<String> iterator = testMap().keySet().iterator();
         iterator.next();
-        iterator.remove();
+        assertThrows(UnsupportedOperationException.class, iterator::remove);
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromValues() throws Exception {
-        testMap().values().remove("value");
+    @Test
+    public void testFailsOnRemoveFromValues() {
+        assertThrows(UnsupportedOperationException.class, () -> testMap().values().remove("value"));
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testFailsOnRemoveFromValuesIterator() throws Exception {
+    @Test
+    public void testFailsOnRemoveFromValuesIterator() {
         Iterator<String> iterator = testMap().values().iterator();
         iterator.next();
-        iterator.remove();
+        assertThrows(UnsupportedOperationException.class, iterator::remove);
     }
 
     private static UnmodifiableMapDecorator<String, String> testMap() {

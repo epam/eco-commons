@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Raman_Babich
@@ -42,11 +42,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 REVISION_TEXT);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertTrue(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertTrue(diff.isEmpty());
     }
 
     @Test
@@ -59,11 +59,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 REVISION_TEXT);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -76,11 +76,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 null);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -93,11 +93,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 REVISION_LINES);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertTrue(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertTrue(diff.isEmpty());
     }
 
     @Test
@@ -110,11 +110,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 null);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -127,11 +127,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 REVISION_LINES);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -142,11 +142,11 @@ public class DiffCalculatorTest {
                 null,
                 REVISION_LINES);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(id, diff.getOriginalId().get());
-        Assert.assertEquals(id, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(id, diff.getOriginalId().get());
+        Assertions.assertEquals(id, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -157,11 +157,11 @@ public class DiffCalculatorTest {
                 ORIGINAL_LINES,
                 null);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(id, diff.getOriginalId().get());
-        Assert.assertEquals(id, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(id, diff.getOriginalId().get());
+        Assertions.assertEquals(id, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -172,11 +172,11 @@ public class DiffCalculatorTest {
                 null,
                 REVISION_TEXT);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(id, diff.getOriginalId().get());
-        Assert.assertEquals(id, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(id, diff.getOriginalId().get());
+        Assertions.assertEquals(id, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -187,11 +187,11 @@ public class DiffCalculatorTest {
                 ORIGINAL_TEXT,
                 null);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(id, diff.getOriginalId().get());
-        Assert.assertEquals(id, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(id, diff.getOriginalId().get());
+        Assertions.assertEquals(id, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -204,11 +204,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 null);
 
-        Assert.assertNotNull(diff);
-        Assert.assertEquals(originalId, diff.getOriginalId().get());
-        Assert.assertFalse(diff.getRevisionId().isPresent());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertEquals(originalId, diff.getOriginalId().get());
+        Assertions.assertFalse(diff.getRevisionId().isPresent());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
     @Test
@@ -221,11 +221,11 @@ public class DiffCalculatorTest {
                 revisionId,
                 REVISION_LINES);
 
-        Assert.assertNotNull(diff);
-        Assert.assertFalse(diff.getOriginalId().isPresent());
-        Assert.assertEquals(revisionId, diff.getRevisionId().get());
-        Assert.assertNotNull(diff.getDiff());
-        Assert.assertFalse(diff.isEmpty());
+        Assertions.assertNotNull(diff);
+        Assertions.assertFalse(diff.getOriginalId().isPresent());
+        Assertions.assertEquals(revisionId, diff.getRevisionId().get());
+        Assertions.assertNotNull(diff.getDiff());
+        Assertions.assertFalse(diff.isEmpty());
     }
 
 

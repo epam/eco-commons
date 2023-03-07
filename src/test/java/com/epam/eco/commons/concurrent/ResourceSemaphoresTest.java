@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.epam.eco.commons.concurrent.ResourceSemaphores.ResourceSemaphore;
 
@@ -33,7 +33,7 @@ import com.epam.eco.commons.concurrent.ResourceSemaphores.ResourceSemaphore;
 public class ResourceSemaphoresTest {
 
     @Test
-    public void testAllSignalsDone() throws Exception {
+    public void testAllSignalsDone() {
         ResourceSemaphores<String, String> instance = new ResourceSemaphores<>();
 
         List<String> keys = Arrays.asList("k1", "k2", "k3", "k4", "k5");
@@ -48,11 +48,11 @@ public class ResourceSemaphoresTest {
             instance.removeSemaphore(semaphore);
             });
 
-        Assert.assertTrue(instance.isEmpty());
+        Assertions.assertTrue(instance.isEmpty());
     }
 
     @Test
-    public void testNullSemaphoreIgnored() throws Exception {
+    public void testNullSemaphoreIgnored() {
         new ResourceSemaphores<>().removeSemaphore(null);
     }
 
@@ -63,11 +63,10 @@ public class ResourceSemaphoresTest {
             int multiplier) {
         List<ResourceSemaphore<String, String>> semaphores =
                 new ArrayList<>();
-        keys.forEach(key -> {
-            IntStream.range(0, multiplier).forEach(i -> {
-                semaphores.add(instance.createSemaphore(key, operation));
-            });
-        });
+        keys.forEach(
+                key -> IntStream.range(0, multiplier).forEach(
+                        i -> semaphores.add(instance.createSemaphore(key, operation))
+                ));
         Collections.shuffle(semaphores);
         return semaphores;
     }

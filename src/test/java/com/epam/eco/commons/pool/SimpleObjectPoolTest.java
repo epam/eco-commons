@@ -16,11 +16,12 @@
 package com.epam.eco.commons.pool;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Andrei_Tytsik
@@ -28,141 +29,148 @@ import org.junit.Test;
 public class SimpleObjectPoolTest {
 
     @Test
-    public void testObjectsBorrowedAndReturned() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
+    public void testObjectsBorrowedAndReturned() {
+        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
             Object object1 = pool.borrowObject();
 
-            Assert.assertNotNull(object1);
+            Assertions.assertNotNull(object1);
 
             Object object2 = pool.borrowObject();
-            Assert.assertNotNull(object2);
+            Assertions.assertNotNull(object2);
 
-            Assert.assertNotEquals(object1, object2);
+            Assertions.assertNotEquals(object1, object2);
 
             pool.returnObject(object1);
             pool.returnObject(object2);
 
             Object object3 = pool.borrowObject();
-            Assert.assertNotNull(object3);
-            Assert.assertEquals(object1, object3);
+            Assertions.assertNotNull(object3);
+            Assertions.assertEquals(object1, object3);
 
             Object object4 = pool.borrowObject();
-            Assert.assertNotNull(object4);
-            Assert.assertEquals(object2, object4);
+            Assertions.assertNotNull(object4);
+            Assertions.assertEquals(object2, object4);
         }
     }
 
     @Test
-    public void testSizeGrows() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
-            Assert.assertEquals(0,  pool.size());
+    public void testSizeGrows() {
+        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
+            Assertions.assertEquals(0,  pool.size());
 
             Object object1 = pool.borrowObject();
-            Assert.assertEquals(1,  pool.size());
+            Assertions.assertEquals(1,  pool.size());
 
             Object object2 = pool.borrowObject();
-            Assert.assertEquals(2,  pool.size());
+            Assertions.assertEquals(2,  pool.size());
 
             Object object3 = pool.borrowObject();
-            Assert.assertEquals(3,  pool.size());
+            Assertions.assertEquals(3,  pool.size());
 
             pool.returnObject(object1);
             pool.returnObject(object2);
             pool.returnObject(object3);
 
-            Assert.assertEquals(3,  pool.size());
+            Assertions.assertEquals(3,  pool.size());
         }
     }
 
     @Test
-    public void testObjectsBorrowedAndReturnedWithDoWith() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
+    public void testObjectsBorrowedAndReturnedWithDoWith() {
+        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
             Object object1 = pool.doWithObject(object -> object);
-            Assert.assertNotNull(object1);
+            Assertions.assertNotNull(object1);
 
             Object object2 = pool.doWithObject(object -> object);
-            Assert.assertNotNull(object2);
-            Assert.assertEquals(object1, object2);
+            Assertions.assertNotNull(object2);
+            Assertions.assertEquals(object1, object2);
         }
     }
 
     @Test
-    public void testClosesCloseables() throws Exception {
+    public void testClosesCloseables() {
         AtomicBoolean closed = new AtomicBoolean(false);
 
         @SuppressWarnings("resource")
-        Closeable closeable = new Closeable() {
-            @Override
-            public void close() throws IOException {
-                closed.set(true);
-            }
-        };
+        Closeable closeable = () -> closed.set(true);
 
         try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> closeable)) {
             pool.borrowObject();
         }
-        Assert.assertTrue(closed.get());
+        Assertions.assertTrue(closed.get());
     }
 
 
-    @Test(expected=NullPointerException.class)
-    public void testFailsOnIllegalArguments1() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(null)) {
-        }
+    @Test
+    public void testFailsOnIllegalArguments1() {
+        assertThrows(NullPointerException.class, () -> new SimpleObjectPool<>(null));
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testFailsOnIllegalArguments2() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
-            pool.returnObject(null);
-        }
+    @Test
+    public void testFailsOnIllegalArguments2() {
+        assertThrows(NullPointerException.class, () -> {
+            try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
+                pool.returnObject(null);
+            }
+        });
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testFailsOnUnknownObjectReturned() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
-            Object unknown = new Object();
-            pool.returnObject(unknown);
-        }
+    @Test
+    public void testFailsOnUnknownObjectReturned() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
+                Object unknown = new Object();
+                pool.returnObject(unknown);
+            }
+        });
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void testFailsOnSameObjectReturnedMultipleTimes() throws Exception {
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object())) {
-            Object object = pool.borrowObject();
-            pool.returnObject(object);
-            pool.returnObject(object);
-        }
+    @Test
+    public void testFailsOnSameObjectReturnedMultipleTimes() {
+        assertThrows(IllegalStateException.class, () -> {
+            try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new)) {
+                Object object = pool.borrowObject();
+                pool.returnObject(object);
+                pool.returnObject(object);
+            }
+        });
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testFailsOnSameObjectCreatedMultipleTimes() throws Exception {
-        Object sameObject = new Object();
-        try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> sameObject)) {
+    @Test
+    public void testFailsOnSameObjectCreatedMultipleTimes() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Object sameObject = new Object();
+            try (SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> sameObject)) {
+                pool.borrowObject();
+                pool.borrowObject();
+            }
+        });
+    }
+
+    @Test
+    public void testSizeFailsOnClosed() {
+        assertThrows(IllegalStateException.class, () -> {
+            SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new);
+            pool.close();
+            pool.size();
+        });
+    }
+
+    @Test
+    public void testBorrowFailsOnClosed() {
+        assertThrows(IllegalStateException.class, () -> {
+            SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new);
+            pool.close();
             pool.borrowObject();
+        });
+    }
+
+    @Test
+    public void testReturnFailsOnClosed() {
+        assertThrows(IllegalStateException.class, () -> {
+            SimpleObjectPool<Object> pool = new SimpleObjectPool<>(Object::new);
+            pool.close();
             pool.borrowObject();
-        }
+        });
     }
-
-    @Test(expected=IllegalStateException.class)
-    public void testSizeFailsOnClosed() throws Exception {
-        SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object());
-        pool.close();
-        pool.size();
-    }
-
-    @Test(expected=IllegalStateException.class)
-    public void testBorrowFailsOnClosed() throws Exception {
-        SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object());
-        pool.close();
-        pool.borrowObject();
-    }
-
-    @Test(expected=IllegalStateException.class)
-    public void testReturnFailsOnClosed() throws Exception {
-        SimpleObjectPool<Object> pool = new SimpleObjectPool<>(() -> new Object());
-        pool.close();
-        pool.borrowObject();
-    }
-
 }

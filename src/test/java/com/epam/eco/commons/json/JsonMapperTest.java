@@ -24,8 +24,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.epam.eco.commons.utils.TestEntity;
 import com.epam.eco.commons.utils.TestUtils;
@@ -40,7 +40,7 @@ public class JsonMapperTest {
         TestEntity expected = TestUtils.getTestEntity();
         byte[] bytes = JsonMapper.toBytes(expected);
         TestEntity result = JsonMapper.bytesToObject(bytes, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class JsonMapperTest {
         TestEntity expected = TestUtils.getTestEntity();
         String json = JsonMapper.toJson(expected);
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class JsonMapperTest {
         TestEntity expected = TestUtils.getTestEntity();
         String json = JsonMapper.toPrettyJson(expected);
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -65,21 +65,21 @@ public class JsonMapperTest {
         String json = JsonMapper.toJson(expected);
         String prettyJson = JsonMapper.toPrettyJson(json);
         TestEntity result = JsonMapper.jsonToObject(prettyJson, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
     public void testInputStreamToObject() {
         InputStream inputStream = new ByteArrayInputStream(TestUtils.getTestEntityJson().getBytes());
         TestEntity result = JsonMapper.inputStreamToObject(inputStream, TestEntity.class);
-        Assert.assertEquals(TestUtils.getTestEntity(), result);
+        Assertions.assertEquals(TestUtils.getTestEntity(), result);
     }
 
     @Test
     public void testReaderToObject() {
         Reader reader = new StringReader(TestUtils.getTestEntityJson());
         TestEntity result = JsonMapper.readerToObject(reader, TestEntity.class);
-        Assert.assertEquals(TestUtils.getTestEntity(), result);
+        Assertions.assertEquals(TestUtils.getTestEntity(), result);
     }
 
     @Test
@@ -110,16 +110,16 @@ public class JsonMapperTest {
     }
 
     private void assertTestEntityMapRepresentationIsValid(Map<String, Object> map) {
-        Assert.assertEquals(9, map.size());
-        Assert.assertTrue(map.containsKey("id"));
-        Assert.assertTrue(map.containsKey("name"));
-        Assert.assertTrue(map.containsKey("age"));
-        Assert.assertTrue(map.containsKey("rating"));
-        Assert.assertTrue(map.containsKey("initRandom"));
-        Assert.assertTrue(map.containsKey("magic"));
-        Assert.assertTrue(map.containsKey("createdAt"));
-        Assert.assertTrue(map.containsKey("lastModifiedAt"));
-        Assert.assertTrue(map.containsKey("deleted"));
+        Assertions.assertEquals(9, map.size());
+        Assertions.assertTrue(map.containsKey("id"));
+        Assertions.assertTrue(map.containsKey("name"));
+        Assertions.assertTrue(map.containsKey("age"));
+        Assertions.assertTrue(map.containsKey("rating"));
+        Assertions.assertTrue(map.containsKey("initRandom"));
+        Assertions.assertTrue(map.containsKey("magic"));
+        Assertions.assertTrue(map.containsKey("createdAt"));
+        Assertions.assertTrue(map.containsKey("lastModifiedAt"));
+        Assertions.assertTrue(map.containsKey("deleted"));
     }
 
     @Test
@@ -128,14 +128,14 @@ public class JsonMapperTest {
         String json = JsonMapper.toJson(expected);
         Map<String, Object> map = JsonMapper.jsonToMap(json);
         TestEntity result = JsonMapper.convert(map, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
     public void testConvert2() {
         TestEntity expected = TestUtils.getTestEntity();
         TestEntity result = JsonMapper.convert(expected, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -145,7 +145,7 @@ public class JsonMapperTest {
         JsonMapper.writeAsJson(stringWriter, expected);
         String json = stringWriter.toString();
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -155,7 +155,7 @@ public class JsonMapperTest {
         JsonMapper.writeAsJson(out, expected);
         String json = out.toString();
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class JsonMapperTest {
         JsonMapper.writeAsPrettyJson(stringWriter, expected);
         String json = stringWriter.toString();
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -175,7 +175,7 @@ public class JsonMapperTest {
         JsonMapper.writeAsPrettyJson(out, expected);
         String json = out.toString();
         TestEntity result = JsonMapper.jsonToObject(json, TestEntity.class);
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
 }
